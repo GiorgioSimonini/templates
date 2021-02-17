@@ -1,0 +1,89 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	// It is possible to replace main with ${fileBasenameNoExtension} to refers to the active file
+	// 
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Compile & Run",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/bin/main",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}/bin",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"miDebuggerPath": "/usr/bin/gdb",
+			"preLaunchTask": "makeProject",		//compila prima di eseguire
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb and add better child debugging",
+					// detach-on-fork dovrebbe migliorare il debug per i figli
+					"text": "-enable-pretty-printing -gdb-set detach-on-fork off",
+					"ignoreFailures": true
+				}
+			],
+			"logging": 
+				{ 
+					"trace": true, 
+					"traceResponse": true 
+				}
+		},
+		{
+			"name": "Launch",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/bin/main",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}/bin",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+      		"miDebuggerPath": "/usr/bin/gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb and add better child debugging",
+					// detach-on-fork dovrebbe migliorare il debug per i figli
+					"text": "-enable-pretty-printing -gdb-set detach-on-fork off",
+					"ignoreFailures": true
+				}
+			],
+			"logging": 
+				{ 
+					"trace": true, 
+					"traceResponse": true 
+				}
+		},
+		{
+			"name": "runActive",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${fileDirname}/${fileBasenameNoExtension}",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"miDebuggerPath": "/usr/bin/gdb",
+			"preLaunchTask": "compileActive",		//compila prima di eseguire
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb and add better child debugging",
+					// detach-on-fork dovrebbe migliorare il debug per i figli
+					"text": "-enable-pretty-printing -gdb-set detach-on-fork off",
+					"ignoreFailures": true
+				}
+			],
+			"logging": 
+				{ 
+					"trace": true, 
+					"traceResponse": true 
+				}
+		}
+	]
+}

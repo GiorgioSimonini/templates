@@ -40,7 +40,7 @@
 const char* ssid = "netword_name";
 const char* password = "password";
 
-WiFiUDP Udp;
+WiFiUDP Udp;							// UDP class
 unsigned int localUdpPort = 4210;  		// local port to listen on
 //unsigned int hostUdpPort = 4209;
 
@@ -101,7 +101,9 @@ void setup() {
 	Serial.println("");
 	Serial.println("WiFi connected");
 
-	Udp.begin(localUdpPort);					// start udp
+	if (!Udp.begin(localUdpPort)){				// start udp
+		// error management
+	}
 
 	// Print the IP address
 	Serial.print("Use this IP to connect: ");
@@ -114,7 +116,7 @@ void setup() {
 
 	//Serial.printf("start python script");
 
-	unsigned long temp = millis();				//get the current "time" (actually the number of milliseconds since the program started)
+	unsigned long temp = millis();				// get the current "time" (actually the number of milliseconds since the program started)
 	lastUdpTime_rx = temp;  	
 	lastUdpTime_tx = temp;
 	lastDebugTime = temp;
@@ -144,9 +146,11 @@ void loop() {
 				incomingPacket[len] = 0;		// useful in case of char* communication
 				if (len == RX_LEN){
 					lastPacketTime = millis();
+					/* update data_rx
 					data_rx[DATA_RX_1] = incomingPacket[DATA_RX_1];
 					data_rx[DATA_RX_2] = incomingPacket[DATA_RX_2];
 					data_rx[DATA_RX_3] = incomingPacket[DATA_RX_3];
+					*/
 				}
 			}
 			Udp.endPacket();
@@ -158,12 +162,16 @@ void loop() {
 	//----- UDP TX TASK -----//
 	if (millis() - lastUdpTime_rx >= UDP_RX_PER){
 		
-		// set data_tx
+		/* set data_tx
 		data_tx[DATA_TX_1] = 1;
 		data_tx[DATA_TX_2] = 2;
 		data_tx[DATA_TX_3] = 3;
-		Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-		Udp.write(data_tx);
+		*/
+		if (Udp.beginPacket(Udp.remoteIP(), Udp.remotePort())){		// open connection
+			Udp.write(data_tx);										// send
+		} else{
+			// error management
+		}
 
 		// TIMING
 		lastUdpTime_tx = millis();

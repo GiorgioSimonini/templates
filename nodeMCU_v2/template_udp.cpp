@@ -12,24 +12,24 @@
 #define 	DEBUG			0
 
 // DATA_TX (lenght and indexes)
-#define 	TX_LEN			3
-#define 	DATA_TX_1		0
+#define 	TX_LEN			3			// exact number of byte to send
+#define 	DATA_TX_1		0			// indexes...
 #define 	DATA_TX_2		1
 #define 	DATA_TX_3		2
 
 // DATA_RX
 #define 	DEATH_TIME		0.1			// time to return at default if no packet arrives
 #define 	MAX_RX_LEN 		255			// max message lenght
-#define 	RX_LEN			3			// number of byte received(must be exactly as sended)
-#define 	DATA_RX_1		0			// indexes of element in messages
+#define 	RX_LEN			3			// exact number of byte received(must be exactly as sended)
+#define 	DATA_RX_1		0			// indexes...
 #define 	DATA_RX_2		1
 #define 	DATA_RX_3		2
 
 // TIMINGS (periods) [ms]
-#define 	FUN1_PER		10
-#define 	DEBUG_PER		200
-#define 	UDP_RX_PER		10
-#define 	UDP_TX_PER		10
+#define 	TASK_PER		10			// period of generic task
+#define 	DEBUG_PER		200			// serial debug period
+#define 	UDP_RX_PER		10			// udp receive period
+#define 	UDP_TX_PER		10			// udp trasmitt period
 
 
 //-------------------//
@@ -44,15 +44,15 @@ WiFiUDP Udp;
 unsigned int localUdpPort = 4210;  		// local port to listen on
 //unsigned int hostUdpPort = 4209;
 
-char data_tx[TX_LEN];
-char data_rx[RX_LEN];
+char data_tx[TX_LEN];					// message to send
+char data_rx[RX_LEN];					// contain received message
 char incomingPacket[MAX_RX_LEN];  		// buffer for incoming packets
 
 // PINS
 char ledPin = D0; 						// integrated led nodeMCU
 char analogInPin = A0;					// analog input from steer motor potentiometer
 
-// time management
+// time management (stores last execution time)
 unsigned long lastUdpTime_rx;
 unsigned long lastUdpTime_tx;
 unsigned long lastPacketTime;
@@ -82,7 +82,7 @@ void setup() {
 	Serial.begin(9600);
 	delay(10);
 
-	pinMode(ledPin, OUTPUT);
+	pinMode(ledPin, OUTPUT);			// set led pin to output
 	
 	digitalWrite(ledPin, HIGH);			// led active low
 
@@ -92,16 +92,16 @@ void setup() {
 	Serial.print("Connecting to ");
 	Serial.println(ssid);
 
-	WiFi.begin(ssid, password);
+	WiFi.begin(ssid, password);					// start wifi connection
 
-	while (WiFi.status() != WL_CONNECTED) {
+	while (WiFi.status() != WL_CONNECTED) {		// wait for connection
 		delay(500);
 		Serial.print(".");
 	}
 	Serial.println("");
 	Serial.println("WiFi connected");
 
-	Udp.begin(localUdpPort);
+	Udp.begin(localUdpPort);					// start udp
 
 	// Print the IP address
 	Serial.print("Use this IP to connect: ");
@@ -114,11 +114,8 @@ void setup() {
 
 	//Serial.printf("start python script");
 
-	// setup PWM
-	//pwm2.setup_pin_hz(steer_pin1, PWM_FREQ, PWM_RES, 0);
-
-	unsigned long temp = millis();
-	lastUdpTime_rx = temp;  	//get the current "time" (actually the number of milliseconds since the program started)
+	unsigned long temp = millis();				//get the current "time" (actually the number of milliseconds since the program started)
+	lastUdpTime_rx = temp;  	
 	lastUdpTime_tx = temp;
 	lastDebugTime = temp;
 	lastPacketTime = temp;
@@ -173,7 +170,7 @@ void loop() {
 	}
 
 	//----- FUNCTION 1 -----//
-	if (millis() - lastFun1Time >= FUN1_PER){
+	if (millis() - lastFun1Time >= TASK_PER){
 
 		// DO SOMETHING
 

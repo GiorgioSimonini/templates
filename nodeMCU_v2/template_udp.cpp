@@ -1,4 +1,13 @@
-// template for UDP comunication
+/*----------------------------------------------------------------------------------------------------------------*
+	Author: Giorgio Simonini
+	Title:
+    Data:
+	Description:
+	Functionalities:
+    To do:
+    Problems:
+
+------------------------------------------------------------------------------------------------------------------*/
 
 #include <Arduino.h>
 #include <ESP8266WiFi.h>

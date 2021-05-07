@@ -50,16 +50,23 @@ const char* ssid = "netword_name";
 const char* password = "password";
 
 WiFiUDP Udp;							// UDP class
-unsigned int localUdpPort = 4210;  		// local port to listen on
-//unsigned int hostUdpPort = 4209;
+IPAddress host_ip(x,x,x,x);
+unsigned int local_port = xxxx;  		// local port to listen on
+unsigned int host_port = xxxx;
 
-char data_tx[TX_LEN];					// message to send
-char data_rx[RX_LEN];					// contain received message
-char incomingPacket[MAX_RX_LEN];  		// buffer for incoming packets
+byte data_tx[TX_LEN];					// message to send
+/*
+	if data is float:
+		float data[len];
+		byte data_b[len*sizeof(float)];
+	and use data_b to send and receive (or Udp.write((const uint8_t *)data, len*sizeof(float));)
+*/
+byte data_rx[RX_LEN];					// contain received message
+byte incomingPacket[MAX_RX_LEN];  		// buffer for incoming packets
 
 // PINS
-char ledPin = D0; 						// integrated led nodeMCU
-char analogInPin = A0;					// analog input from steer motor potentiometer
+byte ledPin = D0; 						// integrated led nodeMCU
+byte analogInPin = A0;					// analog input from steer motor potentiometer
 
 // time management (stores last execution time)
 unsigned long lastUdpTime_rx;
@@ -110,7 +117,7 @@ void setup() {
 	Serial.println("");
 	Serial.println("WiFi connected");
 
-	if (!Udp.begin(localUdpPort)){				// start udp
+	if (!Udp.begin(local_port)){				// start udp
 		// error management
 	}
 
@@ -120,7 +127,7 @@ void setup() {
 	Serial.print(WiFi.localIP());
 	Serial.println("/");
 
-	Serial.printf("port UDP: %i ", localUdpPort);
+	Serial.printf("port UDP: %i ", local_port);
 	Serial.println("");
 
 	//Serial.printf("start python script");
@@ -176,8 +183,9 @@ void loop() {
 		data_tx[DATA_TX_2] = 2;
 		data_tx[DATA_TX_3] = 3;
 		*/
-		if (Udp.beginPacket(Udp.remoteIP(), Udp.remotePort())){		// open connection
+		if (Udp.beginPacket(host_ip, host_port)){				// open connection
 			Udp.write(data_tx);										// send
+			Udp.endPacket();
 		} else{
 			// error management
 		}

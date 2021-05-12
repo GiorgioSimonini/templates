@@ -27,7 +27,7 @@
 #define 	DATA_TX_3		2
 
 // DATA_RX
-#define 	DEATH_TIME		0.1			// time to return at default if no packet arrives
+#define 	DEATH_TIME		100			// (ms) time to return at default if no packet arrives
 #define 	MAX_RX_LEN 		255			// max message lenght
 #define 	RX_LEN			3			// exact number of byte received(must be exactly as sended)
 #define 	DATA_RX_1		0			// indexes...
@@ -37,7 +37,7 @@
 // TIMINGS (periods) [ms]
 #define 	TASK_PER		10			// period of generic task
 #define 	DEBUG_PER		200			// serial debug period
-#define 	UDP_RX_PER		10			// udp receive period
+#define 	UDP_RX_PER		5			// udp receive period
 #define 	UDP_TX_PER		10			// udp trasmitt period
 
 
@@ -50,9 +50,9 @@ const char* ssid = "netword_name";
 const char* password = "password";
 
 WiFiUDP Udp;							// UDP class
-IPAddress host_ip(x,x,x,x);
+IPAddress remote_ip(x,x,x,x);
 unsigned int local_port = xxxx;  		// local port to listen on
-unsigned int host_port = xxxx;
+unsigned int remote_port = xxxx;
 
 byte data_tx[TX_LEN];					// message to send
 /*
@@ -162,10 +162,10 @@ void loop() {
 				incomingPacket[len] = 0;		// useful in case of char* communication
 				if (len == RX_LEN){
 					lastPacketTime = millis();
-					/* update data_rx
-					data_rx[DATA_RX_1] = incomingPacket[DATA_RX_1];
-					data_rx[DATA_RX_2] = incomingPacket[DATA_RX_2];
-					data_rx[DATA_RX_3] = incomingPacket[DATA_RX_3];
+					/* update data_rx, if floats:
+					for (unsigned int i=0; i<RX_LEN*sizeof(float); i++){
+						data_rx_b[i] = incomingPacket[i];
+					}
 					*/
 				}
 			}
@@ -176,15 +176,16 @@ void loop() {
 	}
 
 	//----- UDP TX TASK -----//
-	if (millis() - lastUdpTime_rx >= UDP_RX_PER){
+	if (millis() - lastUdpTime_tx >= UDP_TX_PER){
 		
 		/* set data_tx
 		data_tx[DATA_TX_1] = 1;
 		data_tx[DATA_TX_2] = 2;
 		data_tx[DATA_TX_3] = 3;
 		*/
-		if (Udp.beginPacket(host_ip, host_port)){				// open connection
+		if (Udp.beginPacket(remote_ip, remote_port)){				// open connection
 			Udp.write(data_tx);										// send
+			// Udp.write((const uint8_t *)data_tx, TX_LEN*sizeof(float)); 	// if float
 			Udp.endPacket();
 		} else{
 			// error management

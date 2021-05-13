@@ -26,7 +26,7 @@ class udp_class:
 	# ----- INIT CLASS ----- #
 	def __init__(self, remote_ip, remote_port, local_ip, local_port):
 		
-		self.RECV_BYTES = 255
+		self.RECV_BYTES = 255		# must be at least double of message lenght (in bytes)
 
 		# ips and ports
 		self.__REMOTE_PORT = remote_port

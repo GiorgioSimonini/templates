@@ -44,7 +44,8 @@ class udp_class:
 		self.sock.setblocking(0)
 		
 		# self.__packet_list = []		# if needed
-		self.__last_packet = None
+		self.last_packet = None
+		self.packet_time = None
 		# self.__to_send_list = []		# if needed
 		self.__die_flag = False
 
@@ -57,9 +58,10 @@ class udp_class:
 			try:
 				# try to receive ONE packet
 				rx_buf, addr = self.sock.recvfrom(self.RECV_BYTES)
-				self.__last_packet = rx_buf
+				self.last_packet = rx_buf
+				self.packet_time = time.time()
 			except Exception as e:
-				# self.__last_packet = None
+				# self.last_packet = None
 				#print(e)
 				pass
 
@@ -73,9 +75,9 @@ class udp_class:
 	# ----- GET PACKET ----- #
 	# remove last packet when readed
 	def getPacket(self):
-		temp = self.__last_packet
-		self.__last_packet = None
-		return temp
+		temp = self.last_packet
+		self.last_packet = None
+		return temp, self.packet_time
 	
 
 	# ----- SEND ----- #
@@ -106,12 +108,11 @@ class udp_class:
 # data_time	= None								# not implemented
 
 # def get_data():
-# 	msg = udp_connection.getPacket()					# try to get last packet
+# 	msg, data_time = udp_connection.getPacket()					# try to get last packet
 # 	global data
 #	global data_time
 # 	if msg != None and len(msg) == DATA_LEN:  			# if new packet arrived
 # 		msg_iter = struct.iter_unpack('f', msg)			# get iterator containing data
 # 		sens_data_tuple = list(msg_iter)				# convert to list of tuple (unpack returns tuple)
 # 		data = [x[0] for x in sens_data_tuple]			# extract first element from each tuple
-# 		data_time = time.time()							# better if time is taken when packet arrive
 # # ----------------------------------------------------------------- #

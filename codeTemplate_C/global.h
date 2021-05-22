@@ -1,7 +1,8 @@
 #ifndef GLOBAL_H
 	#define GLOBAL_H
 /*----------------------------------------------------------------------------------------------------------------*
-	Author: Giorgio Simonini
+	Author: 
+		Giorgio Simonini		https://github.com/GiorgioSimonini
 	Title:
 	Version:
     Data:

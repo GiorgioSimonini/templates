@@ -1,5 +1,8 @@
 '''----------------------------------------------------------------------------------------------------------------*
-	Author: Giorgio Simonini
+	Author: 
+		Giorgio Simonini		https://github.com/GiorgioSimonini
+		Simone Tolomei			https://github.com/tolomeis
+		Alessandro Gentili		https://github.com/a-gentili
 	Title: 	VISUALIZER CLASS
     Time: 	2021-05-22
 	Description: 

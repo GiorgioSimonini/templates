@@ -1,5 +1,6 @@
 '''----------------------------------------------------------------------------------------------------------------*
-	Author: Giorgio Simonini
+	Author: 
+		Giorgio Simonini		https://github.com/GiorgioSimonini
 	Title: 	UDP CLASS
     Time: 	2021-05-13
 	Description: 

@@ -1,13 +1,13 @@
 %% setup
 % movie parameters
-movie_mode = 0;
-k = 1;				% init of movie's frames counter
-movie_fps = 30;		% movie frame per second
+movie_mode = 0;     % 1 creates the video file
 movie_title = 'file_title';
+movie_fps = 30;		% movie frame per second
 
 %% Animation
 fps = movie_fps;
 period=1/fps;
+k = 1;				% init of movie's frames counter
 
 tprec=0;
 index=1;

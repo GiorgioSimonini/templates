@@ -1,8 +1,11 @@
-%% Symbolic minimum-jerk and minimum-crackle trajectory computation %%
+%% Symbolic spline, minimum-jerk, and minimum-crackle trajectory computation %%
 % author: Giorgio Simonini
 % date: 15/11/2022
 % info: for efficiency reasons, best to substitute numerical values before
 %       the symbolic computation (b, ti, tf)
+
+%% Spline n-order generator
+% ----- To Do ----- 
 
 %% Minimum jerk (continuous acceleration)
 syms q_i q_f dq_i dq_f ddq_i ddq_f real			% configuration variables
